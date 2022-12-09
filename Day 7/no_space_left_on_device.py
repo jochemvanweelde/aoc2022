@@ -14,10 +14,7 @@ class Folder:
     self.files: list[File] = []
     self.folders: list['Folder'] = []
     self.size = 0
-    if parent is None:
-      self.parent: Folder = self
-    else:
-      self.parent: Folder = parent
+    self.parent: Optional[Folder] = parent
     
   def add_file(self, file) -> None:
     self.files.append(file)
@@ -75,7 +72,7 @@ class FileSystem:
     command_list = command.split(' ')
     if command_list[1] == 'cd':
       if command_list[2].startswith('..'):
-        self.current_folder = self.current_folder.parent
+        self.current_folder = self.current_folder.parent  # type: ignore
       else:
         self.current_folder = self.current_folder.get_folder(command_list[2])
     
